@@ -50,7 +50,6 @@ public final class FileMenuDialog {
                 FileMenuCustomizer.show(activity);
             });
             if (grid) {
-                view.findViewById(R.id.fileMenuHandle).setVisibility(View.GONE);
                 list.setLayoutManager(new GridLayoutManager(activity, 2));
                 int edge = (int) (12 * activity.getResources().getDisplayMetrics().density + 0.5f);
                 list.setPadding(edge, list.getPaddingTop(), edge, list.getPaddingBottom());
