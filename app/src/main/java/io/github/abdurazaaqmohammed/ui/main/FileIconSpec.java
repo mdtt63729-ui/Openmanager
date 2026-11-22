@@ -23,15 +23,21 @@ public record FileIconSpec(int glyph, int background, int foreground, int label,
     // tinted tile every other type sits on.
     public static final FileIconSpec FOLDER = new FileIconSpec(R.drawable.ic_folder_golden, 0, 0, R.string.folder, true);
     public static final FileIconSpec APK = spec(R.drawable.apk_document_24px, 0xFF2E7D32, R.string.shortcut_icon_apk);
-    public static final FileIconSpec IMAGE = spec(R.drawable.image_24px, 0xFF6A1B9A, R.string.image);
+    public static final FileIconSpec IMAGE = spec(R.drawable.image_24px, 0xFF00838F, R.string.image);
     public static final FileIconSpec VIDEO = spec(R.drawable.video_24px, 0xFFC62828, R.string.shortcut_icon_video);
-    public static final FileIconSpec AUDIO = spec(R.drawable.music_24px, 0xFF00897B, R.string.shortcut_icon_audio);
+    public static final FileIconSpec AUDIO = spec(R.drawable.music_24px, 0xFFAD1457, R.string.shortcut_icon_audio);
     public static final FileIconSpec ARSC = spec(R.drawable.stacks_24px, 0xFF9A6A00, R.string.shortcut_icon_resources);
     public static final FileIconSpec DEX = spec(R.drawable.code_24px, 0xFF549395, R.string.shortcut_icon_dex);
-    public static final FileIconSpec ARCHIVE = spec(R.drawable.baseline_folder_zip_24, 0xFFE65100, R.string.shortcut_icon_archive);
+    public static final FileIconSpec ARCHIVE = spec(R.drawable.baseline_folder_zip_24, 0xFF6A1B9A, R.string.shortcut_icon_archive);
     public static final FileIconSpec STICKER = spec(R.drawable.ic_sticker_24px, 0xFF00897B, R.string.shortcut_icon_sticker);
-    public static final FileIconSpec PDF = spec(R.drawable.pdf_24px, 0xFFAD1457, R.string.shortcut_icon_pdf);
-    public static final FileIconSpec TEXT = spec(R.drawable.baseline_text_snippet_24, 0xFF1565C0, R.string.shortcut_icon_text);
+    public static final FileIconSpec PDF = spec(R.drawable.pdf_24px, 0xFFC62828, R.string.shortcut_icon_pdf);
+    public static final FileIconSpec TEXT = spec(R.drawable.baseline_text_snippet_24, 0xFF616161, R.string.shortcut_icon_text);
+    // PRD code palette: markup teal, Java/HTML orange, Kotlin violet, CSS blue, JS yellow.
+    public static final FileIconSpec CODE = spec(R.drawable.code_24px, 0xFF00897B, R.string.shortcut_icon_dex);
+    public static final FileIconSpec CODE_ORANGE = spec(R.drawable.code_24px, 0xFFEF6C00, R.string.shortcut_icon_dex);
+    public static final FileIconSpec CODE_VIOLET = spec(R.drawable.code_24px, 0xFF4527A0, R.string.shortcut_icon_dex);
+    public static final FileIconSpec CODE_BLUE = spec(R.drawable.code_24px, 0xFF1565C0, R.string.shortcut_icon_dex);
+    public static final FileIconSpec CODE_YELLOW = spec(R.drawable.code_24px, 0xFFF9A825, R.string.shortcut_icon_dex);
     public static final FileIconSpec ELF = spec(R.drawable.terminal_24px, 0xFF37474F, R.string.shortcut_icon_elf);
     public static final FileIconSpec DISK = spec(R.drawable.ic_disk_drive_24px, 0xFF455A64, R.string.shortcut_icon_disk);
     public static final FileIconSpec DATABASE = spec(R.drawable.ic_database_24px, 0xFF00695C, R.string.shortcut_icon_database);
@@ -65,6 +71,16 @@ public record FileIconSpec(int glyph, int background, int foreground, int label,
         if (extension.equals(".pdf")) return PDF;
         if (extension.equals(".dex")) return DEX;
         if (extension.equals(".arsc")) return ARSC;
+        // PRD icon mapping: code and markup get their own colour before the
+        // generic text bucket picks the file up.
+        switch (extension) {
+            case ".xml": case ".json": return CODE;
+            case ".java": case ".html": case ".htm": return CODE_ORANGE;
+            case ".kt": case ".kts": return CODE_VIOLET;
+            case ".css": return CODE_BLUE;
+            case ".js": case ".mjs": return CODE_YELLOW;
+            default: break;
+        }
         if (FileUtils.matchExt(extension, FileUtils.TEXT_EXTS)) return TEXT;
         if (FileIconLoader.isDatabaseExt(extension)) return DATABASE;
         if (FileIconLoader.isFontExt(extension)) return FONT;
