@@ -122,19 +122,25 @@ public class UpdateUtil {
             if (!tagMatcher.find()) continue;
             JSONArray assets = release.optJSONArray("assets");
             if (assets == null) continue;
+            AppRelease best = null;
+            int bestScore = 0;
             for (int j = 0; j < assets.length(); j++) {
                 JSONObject asset = assets.optJSONObject(j);
                 if (asset == null) continue;
                 String name = asset.optString("name", "");
                 String url = asset.optString("browser_download_url", "");
-                if (!name.toLowerCase().startsWith(APP_APK_PREFIX) || url.isEmpty()) continue;
-                AppRelease out = new AppRelease();
-                out.version = tagMatcher.group(1);
-                out.apkName = name;
-                out.apkUrl = url;
-                out.changelog = release.optString("body", "");
-                return out;
+                if (url.isEmpty()) continue;
+                int score = apkScore(name);
+                if (score > bestScore) {
+                    bestScore = score;
+                    best = new AppRelease();
+                    best.version = tagMatcher.group(1);
+                    best.apkName = name;
+                    best.apkUrl = url;
+                    best.changelog = release.optString("body", "");
+                }
             }
+            if (best != null) return best;
         }
         return null;
     }
@@ -160,4 +166,32 @@ public class UpdateUtil {
         conn.setRequestProperty("Accept", "application/vnd.github+json");
         return conn;
     }
+
+    /**
+     * Scores one release asset for this device, so the updater picks the APK
+     * that actually fits instead of whichever asset happens to come first.
+     *
+     * An APK whose ABI matches the phone beats the universal build, and the
+     * full flavour beats lite. Anything that is not one of our APKs scores 0.
+     */
+    private static int apkScore(String name) {
+        String lower = name.toLowerCase(java.util.Locale.US).replace('_', '-');
+        String prefix = APP_APK_PREFIX.replace('_', '-').replace('.', '-');
+        if (!lower.endsWith(".apk") || !lower.startsWith(prefix)) return 0;
+        int score = 1;
+        String[] abis = android.os.Build.SUPPORTED_ABIS;
+        if (abis != null) {
+            for (int i = 0; i < abis.length; i++) {
+                if (lower.contains(abis[i].toLowerCase(java.util.Locale.US))) {
+                    score += 100 - i * 10; // best matching ABI first
+                    break;
+                }
+            }
+        }
+        if (lower.contains("universal")) score += 20;
+        if (lower.contains("-full-")) score += 8;
+        if (lower.contains("-lite-")) score += 2;
+        return score;
+    }
+
 }
