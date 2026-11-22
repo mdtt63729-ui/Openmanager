@@ -30,8 +30,18 @@ jobs:
           java-version: '21'
           cache: gradle
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      # GitHub's ubuntu runners already ship the Android SDK, so the
+      # setup-android action is not needed (it failed on 'tools' here).
+      - name: Accept SDK licenses and ensure platform 37
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          [ -x "$SDKMANAGER" ] || SDKMANAGER="$(command -v sdkmanager || true)"
+          if [ -n "$SDKMANAGER" ]; then
+            yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
+            "$SDKMANAGER" "platforms;android-37" "build-tools;37.0.0" > /dev/null 2>&1 || true
+          fi
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls "$ANDROID_HOME/platforms" 2>/dev/null || true
 
       - name: Grant execute permission
         run: chmod +x gradlew
