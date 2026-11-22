@@ -472,12 +472,26 @@ public class MainActivity extends BaseActivity implements PaneNavigationControll
     }
 
     public void openSidebarDrawer() {
-        ensureSidebarReady();
+        // The hamburger opens the Material 3 "Open Manager" popup now; the
+        // drawer itself stays for anything that still calls it directly.
         try {
-            drawerLayout.openDrawer(GravityCompat.START);
+            new OpenManagerMenuDialog(this).show();
+        } catch (Exception e) {
+            ensureSidebarReady();
+            try {
+                drawerLayout.openDrawer(GravityCompat.START);
+            } catch (Exception ignored) {
+            }
+            isSidebarDrawerOpen = true;
+        }
+    }
+
+    /** Lets the popup run the same built-in tools the sidebar uses. */
+    public void openBuiltInSidebarTool(String id) {
+        try {
+            sidebar.openBuiltInTool(id);
         } catch (Exception ignored) {
         }
-        isSidebarDrawerOpen = true;
     }
 
     public void closeSidebarDrawer() {
