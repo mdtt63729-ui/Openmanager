@@ -147,7 +147,7 @@ dependencies {
     //implementation 'com.github.AtifSayings:Animatoo:1.0.1'
     //implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'io.github.skylot:jadx-core:1.5.6'
-    implementation 'io.github.skylot:jadx-plugins-api:1.5.6'
+    // jadx-plugins-api stopped at 1.4.7 and nothing here uses it.
     implementation 'io.github.skylot:jadx-dex-input:1.5.6'
     implementation 'io.github.skylot:jadx-java-input:1.5.6'
     implementation('de.femtopedia.dex2jar:dex2jar:2.4.28') {
