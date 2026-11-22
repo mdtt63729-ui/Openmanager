@@ -796,6 +796,9 @@ public class FileOpener {
     }
 
     public void openWithDefaultOrDialog(File file, String fileName) {
+        // View the common types inside the app instead of handing them to
+        // another app; anything without a built-in viewer still falls through.
+        if (openInApp(file, fileName)) return;
         openWithSavedDefaults(file, fileName, null, null, () -> {
             withReadableCopy(file, readable -> {
                 if (fileProviderUri(readable) == null) {
@@ -3053,4 +3056,32 @@ public class FileOpener {
                     else context.startActivity(arscIntent);
                 }).create());
     }
+
+    /** Opens images, media and text with the built-in viewers. */
+    private boolean openInApp(File file, String fileName) {
+        if (file == null || !file.isFile()) return false;
+        String name = (fileName == null ? file.getName() : fileName).toLowerCase(java.util.Locale.ROOT);
+        int dot = name.lastIndexOf('.');
+        if (dot < 0) return false;
+        String ext = name.substring(dot);
+        try {
+            if (FileUtils.matchExt(ext, FileUtils.IMAGE_EXTS)) {
+                io.github.abdurazaaqmohammed.ui.viewer.ImageViewerActivity.open(context, file.getAbsolutePath());
+                return true;
+            }
+            if (FileUtils.matchExt(ext, FileUtils.VIDEO_EXTS)
+                    || FileUtils.matchExt(ext, FileUtils.AUDIO_EXTS)) {
+                context.playMediaFile(file.getAbsolutePath());
+                return true;
+            }
+            if (FileUtils.matchExt(ext, FileUtils.TEXT_EXTS)) {
+                openTextEditor(file, null, null);
+                return true;
+            }
+        } catch (Throwable ignored) {
+            // any failure falls back to the normal open-with flow
+        }
+        return false;
+    }
+
 }
