@@ -130,7 +130,7 @@ public class UpdateUtil {
                 String name = asset.optString("name", "");
                 String url = asset.optString("browser_download_url", "");
                 if (url.isEmpty()) continue;
-                int score = apkScore(name);
+                int score = apkScore(name, tagMatcher.group(1));
                 if (score > bestScore) {
                     bestScore = score;
                     best = new AppRelease();
@@ -174,7 +174,7 @@ public class UpdateUtil {
      * An APK whose ABI matches the phone beats the universal build, and the
      * full flavour beats lite. Anything that is not one of our APKs scores 0.
      */
-    private static int apkScore(String name) {
+    private static int apkScore(String name, String version) {
         String lower = name.toLowerCase(java.util.Locale.US).replace('_', '-');
         String prefix = APP_APK_PREFIX.replace('_', '-').replace('.', '-');
         if (!lower.endsWith(".apk") || !lower.startsWith(prefix)) return 0;
@@ -189,6 +189,7 @@ public class UpdateUtil {
             }
         }
         if (lower.contains("universal")) score += 20;
+        if (version != null && !version.isEmpty() && lower.contains(version)) score += 50;
         if (lower.contains("-full-")) score += 8;
         if (lower.contains("-lite-")) score += 2;
         return score;
