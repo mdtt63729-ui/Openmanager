@@ -70,7 +70,7 @@ jobs:
           fi
 
       - name: Keep the APKs as a workflow artifact too
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: apks-${{ github.sha }}
           path: out/*.apk
