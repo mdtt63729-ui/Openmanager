@@ -60,8 +60,8 @@ jobs:
             base=$(basename "$apk")            # app-full-arm64-v8a-release.apk
             trimmed=${base#app-}               # full-arm64-v8a-release.apk
             trimmed=${trimmed/-release.apk/}   # full-arm64-v8a
-            cp "$apk" "out/MP-Manager-${trimmed}-${VERSION}.apk"
-            echo "packaged MP-Manager-${trimmed}-${VERSION}.apk"
+            cp "$apk" "out/Open-Manager-${trimmed}-${VERSION}.apk"
+            echo "packaged Open-Manager-${trimmed}-${VERSION}.apk"
           done
           ls -lh out
 
@@ -75,7 +75,7 @@ jobs:
             gh release upload "$TAG" out/*.apk --clobber
           else
             gh release create "$TAG" out/*.apk \
-              --title "MP Manager $TAG" \
+              --title "Open Manager $TAG" \
               --notes "Built from ${{ github.sha }}. Assets: universal APK plus per-ABI builds for the full and lite flavours."
           fi
 
