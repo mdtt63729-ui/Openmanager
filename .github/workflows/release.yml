@@ -1,0 +1,77 @@
+name: Release APKs
+
+# Builds every variant and publishes them to a GitHub Release.
+# Trigger: push a tag like v1.1.5, or run it by hand.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to create/update (e.g. v1.1.5)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      - name: Build release APKs (universal + per ABI)
+        run: |
+          ./gradlew --no-daemon assembleFullRelease assembleLiteRelease
+
+      - name: Collect and rename APKs
+        run: |
+          set -e
+          mkdir -p out
+          VERSION=$(grep -oP 'versionName\s+"\K[^"]+' app/build.gradle)
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          find app/build/outputs/apk -name '*.apk' -type f | while read -r apk; do
+            base=$(basename "$apk")            # app-full-arm64-v8a-release.apk
+            trimmed=${base#app-}               # full-arm64-v8a-release.apk
+            trimmed=${trimmed/-release.apk/}   # full-arm64-v8a
+            cp "$apk" "out/MP-Manager-${trimmed}-${VERSION}.apk"
+            echo "packaged MP-Manager-${trimmed}-${VERSION}.apk"
+          done
+          ls -lh out
+
+      - name: Publish release with every APK
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" out/*.apk --clobber
+          else
+            gh release create "$TAG" out/*.apk \
+              --title "MP Manager $TAG" \
+              --notes "Built from ${{ github.sha }}. Assets: universal APK plus per-ABI builds for the full and lite flavours."
+          fi
+
+      - name: Keep the APKs as a workflow artifact too
+        uses: actions/upload-artifact@v4
+        with:
+          name: apks-${{ github.sha }}
+          path: out/*.apk
+          retention-days: 14

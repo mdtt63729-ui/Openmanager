@@ -1,0 +1,23 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Open Manager"
+include ':app'
+include ':sdk'
+include ':packs:pack-math'
+include ':packs:pack-notes'
+include ':packs:pack-text'
+include ':packs:pack-random'
+include ':packs:pack-device'
+include ':packs:pack-media'
+include ':packs:pack-network'
+include ':packs:pack-ocr'
+include ':samples:plugin-sample'
+include ':samples:theme-sample'
+include ':apkkit'
+include ':zero-symbol-input-view'
+include ':zero-symbol-input-view-v2'

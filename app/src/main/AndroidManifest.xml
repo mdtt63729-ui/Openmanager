@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:installLocation="preferExternal"
+    package="io.github.abdurazaaqmohammed.MPManager">
+    <uses-sdk tools:overrideLibrary="com.rosan.dhizuku.api, io.github.rosemoe.sora.langs.java, androidx.window, androidx.window.core, rikka.shizuku.provider, rikka.shizuku.api, rikka.shizuku.shared, rikka.shizuku.aidl" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_POLICY_ACCESSIBILITY" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"
+        tools:ignore="RequestInstallPackagesPolicy" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="PackageVisibilityPolicy" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" android:minSdkVersion="30"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="com.termux.permission.RUN_COMMAND" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="false" />
+    <uses-feature android:name="android.hardware.sensor.compass" android:required="false" />
+    <uses-permission-sdk-23 android:name="moe.shizuku.manager.permission.API_V23" />
+    <!-- Dhizuku (device-owner delegation). The AAR merges the same declaration;
+         kept explicit so the dependency on Dhizuku being installed is visible. -->
+    <uses-permission android:name="com.rosan.dhizuku.permission.API" />
+
+    <!-- External plugin discovery (out-of-process plugins expose these actions). -->
+    <queries>
+        <intent>
+            <action android:name="${applicationId}.action.SIDEBAR_OPEN" />
+        </intent>
+        <intent>
+            <action android:name="${applicationId}.action.SETTING_CONFIG" />
+        </intent>
+        <intent>
+            <action android:name="${applicationId}.action.FILE_MENU" />
+        </intent>
+        <intent>
+            <action android:name="${applicationId}.action.EDITOR_ACTION" />
+        </intent>
+        <intent>
+            <action android:name="${applicationId}.action.APK_ACTION" />
+        </intent>
+        <!-- Theme providers (fixed content://<authority>/theme row contract). -->
+        <intent>
+            <action android:name="${applicationId}.action.THEME" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent>
+    </queries>
+
+        <application
+            android:fullBackupContent="@xml/network_backup_rules"
+            android:dataExtractionRules="@xml/network_data_extraction_rules"
+            android:usesCleartextTraffic="true"
+            android:localeConfig="@xml/locales_config"
+            android:requestLegacyExternalStorage="true"
+           android:enableOnBackInvokedCallback="false"
+           android:largeHeap="true"
+           android:theme="@style/Theme.MyApp.Light"
+           android:name="io.github.ratul.topactivity.App"
+           android:icon="@mipmap/ic_launcher"
+           android:label="MP Manager">
+        <activity
+            android:theme="@style/Theme.MPManager.Splash"
+            android:name="io.github.abdurazaaqmohammed.ui.main.MainActivity"
+            android:launchMode="singleTop"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+           <activity
+               android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+               android:name="io.github.abdurazaaqmohammed.feature.apk.APKExtractorActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.sqlite.SqliteViewerActivity"
+            android:exported="false"
+            android:label="SQLite Viewer">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.arm64.Arm64DisassemblerActivity"
+            android:exported="false"
+            android:label="ARM64 Disassembler"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.ToolsHubActivity"
+            android:exported="false"
+            android:label="@string/sidebar_tools">
+        </activity>
+        <activity
+            android:name="io.github.abdurazaaqmohammed.feature.system.ToolShortcutActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.ToolRunnerActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name="io.github.abdurazaaqmohammed.feature.system.ocr.ScreenOcrActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:label="@string/screen_ocr_title"
+            android:windowSoftInputMode="adjustResize" />
+        <service
+            android:name="io.github.abdurazaaqmohammed.feature.system.ocr.ScreenOcrService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.WifiManagerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="${applicationId}.APPLY_DNS_PROFILE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.StorageManagerActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.AdbBrowserActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.mcp.McpServerActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.LogcatActivity"
+            android:label="@string/sidebar_logcat"
+            android:taskAffinity="${applicationId}.logcat"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.shell.CommandShellActivity"
+            android:label="@string/command_shell"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.FridaConsoleActivity"
+            android:label="@string/frida_console"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection"
+            android:exported="false">
+        </activity>
+        <service
+            android:name="io.github.abdurazaaqmohammed.feature.system.LogcatService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false" />
+        <activity
+            android:name="modder.hub.dexeditor.activity.TranslationModeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.feature.freestyle.FreeStylePickerActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:label="@string/free_style"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.feature.freestyle.FreeStyleCanvasActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:label="@string/free_style"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection" />
+        <!-- Picker entry point: apps that ask the system for a file can choose
+             MP Manager and browse with the app's own FilePickerDialog. -->
+        <activity
+            android:name="io.github.abdurazaaqmohammed.ui.editor.PickFileActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:label="MP Manager"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.OPEN_DOCUMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.DocumentsBrowserActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.SetEditActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.appops.AppOpsActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection"
+            android:exported="false">
+        </activity>
+        <activity
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:name="io.github.abdurazaaqmohammed.feature.system.appops.AppOpsDetailActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection"
+            android:exported="false">
+        </activity>
+        <service
+            android:name="io.github.abdurazaaqmohammed.feature.system.PrivateDnsTileService"
+            android:icon="@drawable/wifi_24px"
+            android:label="Private DNS"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="io.github.abdurazaaqmohammed.feature.system.CacheCleanerService"
+            android:label="MP Manager Cache Cleaner"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/cache_cleaner_service" />
+        </service>
+       <activity
+           android:name="io.github.abdurazaaqmohammed.ui.editor.TextEditorActivity"
+           android:windowSoftInputMode="adjustResize|stateHidden"
+           android:launchMode="singleTop"
+           android:exported="false">
+       </activity>
+        <activity
+            android:name="io.github.abdurazaaqmohammed.feature.files.MainSettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.ui.editor.EditorSettingsActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name="io.github.abdurazaaqmohammed.ui.editor.symbols.SymbolDrawerActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.ui.editor.HexEditorActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.ui.editor.HtmlViewerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|density|layoutDirection" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.feature.apk.ArscEditorPlusActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.feature.apk.ArscEditorActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.feature.apk.ArscTextActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.ui.editor.CompareTextActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name="io.github.abdurazaaqmohammed.ui.editor.CompareDexActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+           <activity
+               android:name="modder.hub.dexeditor.activity.SettingsActivity"
+               android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+               android:hardwareAccelerated="true"
+               android:supportsPictureInPicture="true" />
+           <activity
+               android:name="modder.hub.dexeditor.activity.EditFloatingMenusActivity"
+               android:configChanges="orientation|screenSize" />
+            <activity
+                android:name="modder.hub.dexeditor.activity.AIOverViewActivity"
+                android:configChanges="orientation|screenSize" />
+            <provider
+                android:name="rikka.shizuku.ShizukuProvider"
+                android:authorities="${applicationId}.shizuku"
+                android:multiprocess="false"
+                android:enabled="true"
+                android:exported="true"
+                android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+            <provider
+                android:name="androidx.startup.InitializationProvider"
+               android:authorities="${applicationId}.androidx-startup"
+               android:exported="false"
+               tools:ignore="MissingClass"
+               tools:node="merge">
+               <meta-data
+                   android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                   android:value="androidx.startup" />
+               <!-- Cold-start: emoji2's initializer wires up EmojiCompat and pulls the
+                    system emoji font on every process start. Text renders with the
+                    platform's emoji instead, so the initializer is dropped from the
+                    merged manifest (its node also comes from the emoji2 library). -->
+               <meta-data
+                   android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                   tools:node="remove" />
+           </provider>
+            <activity
+                android:name="modder.hub.dexeditor.activity.DexEditorActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:windowSoftInputMode="adjustResize" />
+           <provider
+               android:name="androidx.core.content.FileProvider"
+               android:authorities="${applicationId}.provider"
+               android:exported="false"
+               android:grantUriPermissions="true">
+               <meta-data
+                   android:name="android.support.FILE_PROVIDER_PATHS"
+                   android:resource="@xml/paths"/>
+           </provider>
+           <!-- Storage Access Framework entry: the system Files app lists this
+                provider in its sidebar, and any app's document picker can use
+                it to choose a file from MP Manager. MANAGE_DOCUMENTS keeps it
+                bound to the system document UI only. -->
+           <provider
+               android:name="io.github.abdurazaaqmohammed.provider.StorageDocumentsProvider"
+               android:authorities="${applicationId}.documents"
+               android:exported="true"
+               android:grantUriPermissions="true"
+               android:permission="android.permission.MANAGE_DOCUMENTS">
+               <intent-filter>
+                   <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+               </intent-filter>
+           </provider>
+           <service android:name="com.faith.apkinstaller.APKInstallService" />
+           <service
+                android:name=".ftp.FtpForegroundService"
+                android:foregroundServiceType="specialUse"
+                android:exported="false" />
+            <service
+                android:name="io.github.abdurazaaqmohammed.mcp.McpServerService"
+                android:foregroundServiceType="specialUse"
+                android:exported="false">
+                <property
+                    android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                    android:value="MCP server" />
+            </service>
+           <service
+               android:name="io.github.codehasan.colorpicker.services.ColorPickerService"
+               android:enabled="true"
+               android:exported="false"
+               android:foregroundServiceType="mediaProjection" />
+            <receiver android:name="io.github.abdurazaaqmohammed.mcp.McpStopReceiver" android:exported="false" />
+            <receiver android:name=".ftp.StopReceiver" android:exported="false" />
+            <receiver android:name=".ftp.CopyReceiver" android:exported="false" />
+            <!-- Pause / cancel tapped in the progress notification. -->
+            <receiver
+                android:name="io.github.abdurazaaqmohammed.utils.ProgressActionReceiver"
+                android:exported="false" />
+            <service
+                android:name="io.github.abdurazaaqmohammed.utils.BackgroundOperationService"
+                android:foregroundServiceType="dataSync"
+                android:exported="false" />
+            <service
+                android:name="io.github.abdurazaaqmohammed.feature.system.ScreenCaptureService"
+                android:enabled="true"
+                android:exported="false"
+                android:foregroundServiceType="mediaProjection" />
+            <receiver
+                android:name="io.github.abdurazaaqmohammed.plugins.ipc.PluginPackageReceiver"
+                android:exported="false">
+                <intent-filter>
+                    <action android:name="android.intent.action.PACKAGE_ADDED" />
+                    <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                    <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                    <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
+                    <data android:scheme="package" />
+                </intent-filter>
+            </receiver>
+             <activity
+                 android:name="io.github.abdurazaaqmohammed.ui.viewer.ImageViewerActivity"
+                 android:configChanges="orientation|screenSize|keyboardHidden"
+                 android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+             <activity
+                 android:name="io.github.abdurazaaqmohammed.ui.viewer.ImageEditActivity"
+                 android:exported="false"
+                 android:label="@string/image_editor"
+                 android:configChanges="orientation|screenSize|keyboardHidden"
+                 android:windowSoftInputMode="adjustResize|stateHidden"
+                 android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+             </activity>
+              <activity
+                  android:name="io.github.abdurazaaqmohammed.ui.viewer.SharedEntryActivity"
+                  android:exported="true"
+                  android:excludeFromRecents="true"
+                  android:noHistory="true"
+                  android:label="@string/shared_entry_title"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+                  <intent-filter>
+                      <action android:name="android.intent.action.SEND" />
+                      <action android:name="android.intent.action.SEND_MULTIPLE" />
+                      <action android:name="android.intent.action.VIEW" />
+                      <action android:name="android.intent.action.EDIT" />
+                      <category android:name="android.intent.category.DEFAULT" />
+                      <data android:mimeType="*/*" />
+                  </intent-filter>
+              </activity>
+            <activity
+                android:name="io.github.abdurazaaqmohammed.ui.viewer.MediaPlayerActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+            <activity
+                android:name="io.github.ratul.topactivity.ui.ClipboardActivity"
+                android:exported="false"
+                android:noHistory="true"
+                android:excludeFromRecents="true"
+                android:theme="@style/ClipboardCopyTheme" />
+            <service
+                android:name="io.github.abdurazaaqmohammed.ui.viewer.MusicService"
+                android:foregroundServiceType="mediaPlayback"
+                android:exported="false" />
+            <service
+                android:name="io.github.ratul.topactivity.services.PackageMonitoringService"
+                android:exported="false" />
+            <service
+                android:name="io.github.ratul.topactivity.services.AccessibilityMonitoringService"
+               android:description="@string/accessibility_service_description"
+               android:exported="true"
+               android:label="@string/app_name"
+               android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+               <intent-filter>
+                   <action android:name="android.accessibilityservice.AccessibilityService" />
+               </intent-filter>
+
+               <meta-data
+                   android:name="android.accessibilityservice"
+                   android:resource="@xml/accessibility_service" />
+           </service>
+               <activity
+            android:name=".feature.protection.ProtectionActivity"
+            android:exported="false"
+            android:label="@string/protection_screen_title"
+            android:theme="@style/Theme.MyApp.Light" />
+
+</application>
+</manifest>

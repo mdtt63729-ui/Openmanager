@@ -1,0 +1,26 @@
+version: 2
+updates:
+  # Every Maven/Google dependency declared in the Gradle files.
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Asia/Kolkata"
+    open-pull-requests-limit: 5
+    groups:
+      jadx:
+        patterns:
+          - "io.github.skylot:*"
+      android-tools:
+        patterns:
+          - "com.android.tools*"
+      networking:
+        patterns:
+          - "commons-net*"
+          - "net.lingala.zip4j:*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

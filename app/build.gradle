@@ -1,0 +1,202 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk 37
+    lint {
+        baseline = file("lint.xml")
+    }
+    defaultConfig {
+        applicationId "com.opencraft.openmanager"
+        minSdk 23
+        targetSdk 37
+        multiDexEnabled true
+        versionCode 14
+        versionName "1.1.4"
+        // Where in-app updates look. Set updateRepo in gradle.properties to
+        // your own fork; nothing here points at the upstream project.
+        buildConfigField "String", "UPDATE_REPO", "\"${project.findProperty('updateRepo') ?: 'YOUR_GITHUB_USER/Open-Manager'}\""
+        buildConfigField "String", "UPDATE_APK_PREFIX", "\"${project.findProperty('updateApkPrefix') ?: 'open-manager.'}\""
+        buildConfigField "String", "PROJECT_URL", "\"https://github.com/${project.findProperty('updateRepo') ?: 'YOUR_GITHUB_USER/Open-Manager'}\""
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("release.keystore")
+            storePassword "000000"
+            keyAlias "mido"
+            keyPassword "000000"
+        }
+    }
+
+    buildTypes {
+        debug {
+            // Opt-in isolated package for emulator regression tests; never replace
+            // an installed release or its data just to run the test suite.
+            if (project.hasProperty('editorRegressionBuild')) {
+                applicationIdSuffix '.editorregression'
+            }
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // "full" carries the vendored LSPatch patcher engine and its loader
+    // assets; "lite" omits them entirely (the APK dialog entry
+    // explains where to get the full version). Everything else is shared.
+    flavorDimensions "version"
+    productFlavors {
+        full {
+            dimension "version"
+        }
+        lite {
+            dimension "version"
+        }
+    }
+    // ABI splits: CI publishes one universal APK plus a per-ABI set, so an
+    // arm64 device can download just its own native libraries.
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+            universalApk true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
+    namespace 'io.github.abdurazaaqmohammed.MPManager'
+
+    buildFeatures {
+        aidl true
+        buildConfig true
+    }
+
+    testOptions {
+        unitTests.all {
+            maxHeapSize = "4g"
+        }
+    }
+
+    // zstd for archives (.zst / .tar.zst): vendored sources, compiled per ABI when no prebuilt exists.
+    if (!file("src/main/jniLibs/arm64-v8a/libmp_zstd.so").exists()) {
+        externalNativeBuild {
+            cmake {
+                path file("src/main/cpp/CMakeLists.txt")
+                version "3.22.1"
+            }
+        }
+        ndkVersion "29.0.14206865"
+    }
+
+    dependenciesInfo {
+        // Disables dependency metadata when building APKs.
+        includeInApk = false
+        // Disables dependency metadata when building Android App Bundles.
+        includeInBundle = false
+    }
+    packaging {
+        resources.excludes.add("META-INF/DEPENDENCIES")
+        resources.excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF")
+        resources.excludes.add("META-INF/versions/9/OSGI-INF/LICENSES/**")
+    }
+}
+
+dependencies {
+    implementation project(':sdk')
+    implementation project(':apkkit')
+    implementation project(':zero-symbol-input-view')
+    implementation project(':zero-symbol-input-view-v2')
+    implementation 'androidx.exifinterface:exifinterface:1.4.2'
+    implementation 'androidx.startup:startup-runtime:1.2.0'
+    implementation 'androidx.media:media:1.8.0'
+    // NIO variant: commons-compress's 7z reader touches java.nio.file (LinkOption
+    // et al.) in static initializers, which is missing below API 26 otherwise.
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.5'
+    implementation files('libs/antlr.jar')
+    implementation files('libs/bin-zip.jar')
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0'
+    implementation files('libs/JCommand.jar')
+    implementation files('libs/arsc-parser.jar')
+    // commons-compress 1.27.x: the vendored 1.21 jar had to go — its SevenZFile
+    // assembled entries from a HashMap, whose iteration order differs under ART
+    // and scrambled solid 7z blocks. 1.27 builds the list with a LinkedHashMap
+    // and reads 7z correctly on old Android (with the NIO desugar variant).
+    implementation 'org.apache.commons:commons-compress:1.27.1'
+    // Zstandard support comes from the vendored zstd compiled per-ABI
+    // (app/src/main/cpp) — zstd-jni has no Android natives and aircompressor
+    // touches sun.misc.Unsafe fields Android does not have.
+    implementation files('libs/xz-1.9.jar')
+    implementation files('libs/junrar-8.1.2.jar')
+    implementation("com.google.android.material:material:1.12.0")
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
+    implementation("com.google.guava:guava:33.7.2-android")
+    implementation 'com.beust:jcommander:1.82'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    //implementation 'com.github.AtifSayings:Animatoo:1.0.1'
+    //implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'io.github.skylot:jadx-core:1.5.6'
+    implementation 'io.github.skylot:jadx-plugins-api:1.5.6'
+    implementation 'io.github.skylot:jadx-dex-input:1.5.6'
+    implementation 'io.github.skylot:jadx-java-input:1.5.6'
+    implementation('de.femtopedia.dex2jar:dex2jar:2.4.28') {
+        exclude group: 'de.femtopedia.dex2jar', module: 'd2j-external'
+        exclude group: 'org.antlr', module: 'antlr-runtime'
+        exclude group: 'org.ow2.asm', module: 'asm'
+        exclude group: 'org.ow2.asm', module: 'asm-tree'
+        exclude group: 'org.ow2.asm', module: 'asm-commons'
+    }
+    implementation 'org.slf4j:slf4j-android:1.7.36'
+    implementation "androidx.preference:preference:1.2.1"
+    implementation "androidx.collection:collection:1.7.0"
+    implementation 'io.noties.markwon:core:4.6.2'
+    implementation 'com.google.code.gson:gson:2.14.0'
+    implementation 'org.jruby.joni:joni:2.2.7'
+    implementation files('libs/language-java-debug.aar')//'io.github.Rosemoe.sora-editor:language-java:0.23.6'
+    implementation files('libs/editor-debug.aar')
+    implementation files('libs/language-textmate-debug.aar')
+    implementation 'net.lingala.zip4j:zip4j:2.11.6'
+    implementation 'io.github.java-diff-utils:java-diff-utils:4.17'
+    implementation(platform("io.github.Rosemoe.sora-editor:bom:0.23.6"))
+    implementation "androidx.biometric:biometric:1.1.0"
+    implementation "androidx.window:window:1.5.1"
+
+    implementation files('libs/commons-net-3.11.1.jar')
+    // SMB2/3 client; no legacy SMB1 or native binaries.
+    implementation 'com.hierynomus:smbj:0.14.0'
+    // LSPatch (JingMatrix fork) integrated-mode patcher engine (vendored, see
+    // docs/XPOSED_PATCHER.md) — full flavor only — plus the vendored classes it
+    // links against: the aXML manifest editor (com.wind.meditor, pxb.android)
+    // and the NeoApk raw-file V2/V3 signer used by APK multiplexing
+    // (top.nkbe.nza). Shared deps are already provided: gson, jcommander,
+    // commons-io, bcprov above; NeoApk is Kotlin 2.4.20 bytecode, so the
+    // stdlib must be >= 2.4.20.
+    fullImplementation files('libs/lspatch-patcher.jar')
+    fullImplementation files('libs/patcher-common.jar')
+    fullImplementation("org.jetbrains.kotlin:kotlin-stdlib:2.4.20")
+    implementation("dev.rikka.shizuku:api:13.1.5")
+    implementation("io.github.iamr0s:Dhizuku-API:2.6.0")
+    implementation("dev.rikka.shizuku:provider:13.1.5")
+    implementation("org.apache.ftpserver:ftplet-api:1.2.1")
+    implementation("org.apache.ftpserver:ftpserver-core:1.2.1")
+    implementation("commons-io:commons-io:2.22.0")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.86")
+    implementation 'com.squareup.okhttp3:okhttp:5.5.0'
+    implementation 'com.airbnb.android:lottie:6.6.6'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.5.0'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:5.5.0'
+}

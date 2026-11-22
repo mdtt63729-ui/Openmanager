@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Appearance">
+        <ListPreference
+            app:key="font_type"
+            app:title="Editor Font"
+            app:summary="%s"
+            app:entries="@array/font_styles"
+            app:entryValues="@array/font_style_values"
+            app:defaultValue="normal" />
+
+        <ListPreference
+            app:key="font_size"
+            app:title="Font Size"
+            app:summary="%s"
+            app:entries="@array/font_sizes"
+            app:entryValues="@array/font_size_values"
+            app:defaultValue="14" />
+
+        <SwitchPreferenceCompat
+            app:key="show_indent_guide"
+            app:title="Show Indent Guides"
+            app:summary="Display vertical indent markers"
+            app:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            app:key="show_line_numbers"
+            app:title="Show Line Numbers"
+            app:summary="Display line numbers gutter"
+            app:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Function">
+        <SwitchPreferenceCompat
+            app:key="auto_complete"
+            app:title="Auto-complete suggestions"
+            app:summary="Show the suggestion dropdown while typing"
+            app:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            app:key="auto_complete_new_line_only"
+            app:title="Suggestions on new lines only"
+            app:summary="Show suggestions only when typing on an empty line, not when editing a line that already has code"
+            app:defaultValue="false"
+            app:dependency="auto_complete" />
+
+        <Preference
+            app:key="floating_menu"
+            app:title="Edit floating menus"
+            app:summary="Customize floating toolbar options" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="AI Preference (Gemini AI)">
+        <EditTextPreference
+            app:key="gemini_api_key"
+            app:title="API Key"
+            app:summary="Set your Gemini AI API key"
+            app:dialogTitle="Enter API Key"
+            app:defaultValue="" />
+
+        <ListPreference
+            app:key="gemini_model"
+            app:title="Gemini model"
+            app:summary="%s"
+            app:entries="@array/gemini_model_entries"
+            app:entryValues="@array/gemini_model_values"
+            app:defaultValue="gemini-3.5-flash-lite" />
+
+        <Preference
+            app:key="gemini_refresh_models"
+            app:title="Refresh model list"
+            app:summary="Fetch currently available Gemini models using your API key" />
+
+        <Preference
+            app:key="gemini_disclaimer"
+            app:title="AI usage notice"
+            app:summary="AI responses may be inaccurate or unsafe. You are solely responsible for reviewing and using AI output. This app is not responsible for any consequences of AI usage."
+            app:selectable="false" />
+
+        <SwitchPreferenceCompat
+            app:key="edit_ai_prompt"
+            app:title="Custom prompt"
+            app:summary="Edit prompt before generating AI response"
+            app:defaultValue="false" />
+
+        <Preference
+            app:key="gemini_website"
+            app:title="Get API Key"
+            app:summary="Visit Gemini website to get your API key" />
+    </PreferenceCategory>
+</PreferenceScreen>

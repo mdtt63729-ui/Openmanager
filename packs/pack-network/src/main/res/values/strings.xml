@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="subtitle_connectivity">Network and Wi-Fi info</string>
+    <string name="subtitle_network">Connectivity hub and QR generator</string>
+    <string name="subtitle_qrgen">Text, URL, Wi-Fi to QR</string>
+    <string name="title_connectivity">Connectivity Hub</string>
+    <string name="title_network">Network Tools</string>
+    <string name="title_qrgen">QR Generator</string>
+</resources>

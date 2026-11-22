@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="md_theme_primary">#AAC7FF</color>
+    <color name="update_chip_green">#2E7D32</color>
+    <color name="update_chip_text">#FFFFFF</color>
+</resources>

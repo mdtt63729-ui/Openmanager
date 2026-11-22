@@ -1,0 +1,42 @@
+package io.github.abdurazaaqmohammed.plugins.ipc;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+import io.github.abdurazaaqmohammed.plugins.themes.ThemePacks;
+
+/**
+ * Keeps the external-plugin trust store in sync with installs: uninstalls
+ * drop the pin (a reinstall is a stranger until re-pinned); updates keep
+ * the pin and are re-verified lazily on next invoke (rotation handled by
+ * {@link PluginHost#isTrusted} history check, hard changes re-prompt).
+ */
+public class PluginPackageReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        try {
+            if (intent == null || intent.getData() == null) return;
+            String action = intent.getAction();
+            String pkg = intent.getData().getSchemeSpecificPart();
+            if (pkg == null || pkg.isEmpty()) return;
+            if ((Intent.ACTION_PACKAGE_REMOVED.equals(action)
+                    || Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(action))
+                    && !intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
+                PluginHost.removeTrust(context.getApplicationContext(), pkg);
+                ThemePacks.onPackageRemoved(context.getApplicationContext(), pkg);
+            } else if (Intent.ACTION_PACKAGE_ADDED.equals(action)
+                    || Intent.ACTION_PACKAGE_REPLACED.equals(action)) {
+                ThemePacks.onPackageReplaced(context.getApplicationContext(), pkg);
+            }
+            // Sidebar/file-menu entry caches (60s TTL) would otherwise show a
+            // stale plugin list after installs/uninstalls/replacements.
+            try {
+                ExternalActions.clearSidebarCache();
+            } catch (Exception ignored) {
+            }
+        } catch (Exception ignored) {
+        }
+    }
+}

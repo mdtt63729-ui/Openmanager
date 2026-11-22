@@ -1,0 +1,63 @@
+name: upstream version check
+
+# Watches the decompiler engines and opens a PR when a newer release exists.
+# Dependabot cannot do this for jadx-only logic or for vendored sources,
+# so this workflow covers both.
+on:
+  schedule:
+    - cron: "0 4 * * 1"   # every Monday 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  jadx:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read current jadx version
+        id: cur
+        run: echo "v=$(grep -oP 'jadx-core:\K[0-9.]+' app/build.gradle)" >> "$GITHUB_OUTPUT"
+
+      - name: Ask Maven Central for the latest jadx
+        id: new
+        run: |
+          latest=$(curl -fsSL https://repo.maven.apache.org/maven2/io/github/skylot/jadx-core/maven-metadata.xml \
+                   | grep -oP '(?<=<release>)[^<]+')
+          echo "v=$latest" >> "$GITHUB_OUTPUT"
+          echo "current=${{ steps.cur.outputs.v }} latest=$latest"
+
+      - name: Bump and open a pull request
+        if: steps.cur.outputs.v != steps.new.outputs.v
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OLD: ${{ steps.cur.outputs.v }}
+          NEW: ${{ steps.new.outputs.v }}
+        run: |
+          sed -i "s/jadx-core:$OLD/jadx-core:$NEW/; \
+                  s/jadx-plugins-api:$OLD/jadx-plugins-api:$NEW/; \
+                  s/jadx-dex-input:$OLD/jadx-dex-input:$NEW/; \
+                  s/jadx-java-input:$OLD/jadx-java-input:$NEW/" app/build.gradle
+          branch="chore/jadx-$NEW"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git commit -am "chore(deps): jadx $OLD -> $NEW"
+          git push -u origin "$branch" --force
+          gh pr create --title "chore(deps): jadx $OLD -> $NEW" \
+            --body "Automated bump of the bundled jadx decompiler. Build and test the Java view in the dex editor before merging." \
+            --base main --head "$branch" || true
+
+  vendored:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report upstream tags for the vendored engines
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "### Vendored sources (manual sync needed)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- google/smali latest release: $(gh api repos/google/smali/releases/latest --jq .tag_name)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- REAndroid/APKEditor latest tag: $(gh api repos/REAndroid/APKEditor/tags --jq '.[0].name')" >> "$GITHUB_STEP_SUMMARY"
