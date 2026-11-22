@@ -2775,4 +2775,5 @@ The stub application is replaced with the real one found in the dump and all inj
     <string name="protection_unlocked">Unlocked</string>
     <string name="protection_code_title">Protection code</string>
     <string name="protection_code_body">Save this code. It is the only way to unlock this build later, and it is not stored anywhere:\n\n%1$s</string>
+    <string name="cloned_to">Saved %1$s next to the original</string>
 </resources>

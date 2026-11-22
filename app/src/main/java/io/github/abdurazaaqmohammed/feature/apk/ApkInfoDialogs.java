@@ -884,7 +884,15 @@ public class ApkInfoDialogs {
                                         wrapper[0].signApk(cloned);
                                     }
                                     pm.dismiss();
-                                    context.handler.post(context::refreshAllPanes);
+                                    context.handler.post(() -> {
+                                        context.refreshAllPanes();
+                                        // Put the new clone in front of the user: refresh,
+                                        // then select it in the pane it was made from.
+                                        context.handler.postDelayed(() ->
+                                                context.highlightAndFocusItem(pane1, cloned.getName()), 400);
+                                        Extensions.showMessage(context,
+                                                context.rss.getString(R.string.cloned_to, cloned.getName()));
+                                    });
                                 } catch (Exception e) { pm.dismiss(); new ErrorUtil(context).showError(e); }
                             }).start();
                         };
