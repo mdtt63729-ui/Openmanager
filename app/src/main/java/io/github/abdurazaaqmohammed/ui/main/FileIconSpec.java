@@ -18,8 +18,10 @@ import java.util.List;
 import java.util.Locale;
 
 /** Shared file-type artwork for pane rows and configurable bookmark shortcuts. */
-public record FileIconSpec(int glyph, int background, int foreground, int label) {
-    public static final FileIconSpec FOLDER = new FileIconSpec(R.drawable.ic_folder_mt, 0xFF252525, Color.WHITE, R.string.folder);
+public record FileIconSpec(int glyph, int background, int foreground, int label, boolean fullColour) {
+    // Golden folder and blue document carry their own colours, so they skip the
+    // tinted tile every other type sits on.
+    public static final FileIconSpec FOLDER = new FileIconSpec(R.drawable.ic_folder_golden, 0, 0, R.string.folder, true);
     public static final FileIconSpec APK = spec(R.drawable.apk_document_24px, 0xFF2E7D32, R.string.shortcut_icon_apk);
     public static final FileIconSpec IMAGE = spec(R.drawable.image_24px, 0xFF6A1B9A, R.string.image);
     public static final FileIconSpec VIDEO = spec(R.drawable.video_24px, 0xFFC62828, R.string.shortcut_icon_video);
@@ -42,9 +44,9 @@ public record FileIconSpec(int glyph, int background, int foreground, int label)
     public static final FileIconSpec SCRIPT = spec(R.drawable.terminal_24px, 0xFF283593, R.string.shortcut_icon_script);
     public static final FileIconSpec BACKUP = spec(R.drawable.ic_history, 0xFF5D4037, R.string.shortcut_icon_backup);
     public static final FileIconSpec CERTIFICATE = spec(R.drawable.ic_certificate_seal_24px, 0xFFF57F17, R.string.shortcut_icon_certificate);
-    public static final FileIconSpec FILE = spec(R.drawable.baseline_insert_drive_file_24, 0xFF424242, R.string.file);
+    public static final FileIconSpec FILE = new FileIconSpec(R.drawable.ic_file_blue, 0, 0, R.string.file, true);
 
-    private static FileIconSpec spec(int glyph, int color, int label) { return new FileIconSpec(glyph, color, Color.WHITE, label); }
+    private static FileIconSpec spec(int glyph, int color, int label) { return new FileIconSpec(glyph, color, Color.WHITE, label, false); }
 
     public static List<FileIconSpec> all() {
         return List.of(FOLDER, FILE, APK, IMAGE, VIDEO, AUDIO, DEX, ARSC, ARCHIVE, STICKER, PDF, TEXT,
@@ -77,17 +79,22 @@ public record FileIconSpec(int glyph, int background, int foreground, int label)
         if (List.of(".img", ".iso", ".vdi", ".vhd", ".vhdx", ".vmdk", ".qcow2", ".ext4", ".wad", ".payload").contains(extension)
                 || "payload.bin".equalsIgnoreCase(FilenameUtils.getName(path))) return DISK;
         if (FileUtils.isElf(path)) return ELF;
-        return theme == R.style.Theme_MyApp_Light ? spec(FILE.glyph, 0xFF616161, R.string.file) : FILE;
+        return FILE;
     }
 
     public Drawable drawable(Context context) {
+        if (fullColour) {
+            // No tile and no tint: the artwork already carries its palette.
+            Drawable plain = ResourcesCompat.getDrawable(context.getResources(), glyph, context.getTheme());
+            return plain == null ? null : plain.mutate();
+        }
         float density = context.getResources().getDisplayMetrics().density;
         GradientDrawable backgroundDrawable = new GradientDrawable();
         backgroundDrawable.setCornerRadius(6 * density);
         int tile = background;
-        if (glyph == R.drawable.ic_folder_mt) {
+        if (glyph == R.drawable.ic_folder_golden) {
             tile = ThemeRegistry.packColor(context, "folder_icon_bg", tile);
-        } else if (glyph == R.drawable.baseline_insert_drive_file_24) {
+        } else if (glyph == R.drawable.ic_file_blue) {
             tile = ThemeRegistry.packColor(context, "file_icon_bg", tile);
         }
         backgroundDrawable.setColor(tile);

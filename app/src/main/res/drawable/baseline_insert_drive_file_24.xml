@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Blue folded-page document: flat 2D, folded top-right corner. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="960"
-    android:viewportHeight="960"
-    android:tint="?attr/colorControlNormal">
-    <group android:translateY="960">
-        <path android:fillColor="#FF000000" android:pathData="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V4q0-.825.588-1.413Q5.175 2 6 2h8l6 6v12q0 .825-.587 1.413Q18.825 22 18 22Zm7-13V4H6v16h12V9ZM6 4v5-5 16V4Z" />
-    </group>
+    android:width="40dp"
+    android:height="48dp"
+    android:viewportWidth="80"
+    android:viewportHeight="96">
+
+    <!-- page body with folded corner cut out -->
+    <path
+        android:fillColor="#5275BC"
+        android:pathData="M14,4h38l20,20v64a6,6 0 0 1 -6,6h-52a6,6 0 0 1 -6,-6v-78a6,6 0 0 1 6,-6z" />
+
+    <!-- folded corner -->
+    <path
+        android:fillColor="#91AEE5"
+        android:pathData="M52,4l20,20h-20z" />
+
+    <!-- content lines -->
+    <path
+        android:fillColor="#DCE8FF"
+        android:pathData="M18,44h44v5h-44z" />
+    <path
+        android:fillColor="#DCE8FF"
+        android:pathData="M18,58h44v5h-44z" />
+    <path
+        android:fillColor="#DCE8FF"
+        android:pathData="M18,72h30v5h-30z" />
 </vector>
