@@ -113,6 +113,11 @@ android {
 }
 
 dependencies {
+    // jadx pulls the published smali artifacts, but apkkit vendors the same
+    // classes as source; keeping both makes R8 fail on duplicate class defs.
+    configurations.all {
+        exclude group: 'com.android.tools.smali'
+    }
     implementation project(':sdk')
     implementation project(':apkkit')
     implementation project(':zero-symbol-input-view')
