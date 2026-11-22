@@ -197,3 +197,9 @@
 #     references it, so R8 deleted it -> "MPManagerDocumentsProvider is
 #     missing from MP-Manager's own dex" on the Il2Cpp+docs-provider path.
 -keep class mpmanager.dump.** { *; }
+
+# Vendored smali / baksmali / dexlib2 (apkkit). The CLI classes reference
+# optional libraries that are not packaged, which R8 reports as a hard error.
+-dontwarn com.android.tools.smali.**
+-keep class com.android.tools.smali.** { *; }
+-keepclassmembers class com.android.tools.smali.** { *; }
