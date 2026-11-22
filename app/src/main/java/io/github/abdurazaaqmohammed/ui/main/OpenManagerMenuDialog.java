@@ -1,7 +1,6 @@
 package io.github.abdurazaaqmohammed.ui.main;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,6 +24,7 @@ import io.github.abdurazaaqmohammed.MPManager.R;
 import io.github.abdurazaaqmohammed.feature.apk.APKExtractorActivity;
 import io.github.abdurazaaqmohammed.feature.system.DocumentsBrowserActivity;
 import io.github.abdurazaaqmohammed.feature.system.ToolLauncher;
+import io.github.abdurazaaqmohammed.util.misc.UpdateUtil;
 
 /**
  * The "Open Manager" popup shown by the hamburger button.
@@ -57,6 +57,23 @@ public class OpenManagerMenuDialog extends Dialog {
             window.setAttributes(lp);
         }
 
+        // The version line doubles as the manual update check, so the updater
+        // always answers instead of staying silent.
+        TextView versionLine = findViewById(R.id.omp_version_line);
+        if (versionLine != null) {
+            try {
+                String version = activity.getPackageManager()
+                        .getPackageInfo(activity.getPackageName(), 0).versionName;
+                versionLine.setText("v" + version + " · tap to check for updates");
+            } catch (Exception ignored) {
+                // keep the layout text when the version cannot be read
+            }
+            versionLine.setOnClickListener(v -> {
+                dismiss();
+                UpdateUtil.checkForUpdates(true, activity);
+            });
+        }
+
         findViewById(R.id.omp_settings_button).setOnClickListener(v -> {
             dismiss();
             activity.startActivity(new Intent(activity,
@@ -74,7 +91,6 @@ public class OpenManagerMenuDialog extends Dialog {
                 findViewById(R.id.omp_storage_stats),
                 findViewById(R.id.omp_storage_summary));
 
-        // Directories
         findViewById(R.id.omp_documents).setOnClickListener(v -> {
             dismiss();
             activity.startActivity(new Intent(activity, DocumentsBrowserActivity.class));
@@ -92,7 +108,6 @@ public class OpenManagerMenuDialog extends Dialog {
             activity.startActivity(new Intent(activity, APKExtractorActivity.class));
         });
 
-        // Network
         findViewById(R.id.omp_ftp_server).setOnClickListener(v -> {
             dismiss();
             activity.showFtpServerDialog();
@@ -106,7 +121,6 @@ public class OpenManagerMenuDialog extends Dialog {
             activity.getNetwork().showConnections();
         });
 
-        // Advanced tools
         bindTool(R.id.omp_mcp_server, "mcp_server");
         bindTool(R.id.omp_command_shell, "command_shell");
         bindTool(R.id.omp_logcat, "logcat");
@@ -144,8 +158,7 @@ public class OpenManagerMenuDialog extends Dialog {
             long used = total - free;
             int percent = total <= 0 ? 0 : (int) (used * 100 / total);
             if (stats != null) {
-                stats.setText(String.format(Locale.US, "%s used    %s total",
-                        gb(used), gb(total)));
+                stats.setText(String.format(Locale.US, "%s used    %s total", gb(used), gb(total)));
             }
             if (summary != null) {
                 summary.setText(String.format(Locale.US, "%d%% used · %s available",
