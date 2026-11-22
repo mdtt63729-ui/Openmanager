@@ -70,24 +70,20 @@ public final class FileMenuDialog {
                 dismiss[0] = dialog::dismiss;
                 dialog.show();
             } else {
-                // A centred popup instead of a bottom sheet: the sheet slid in
-                // from the right with its own background edges above and below
-                // the list, which is what the user kept seeing.
-                AlertDialog popup = new MaterialAlertDialogBuilder(activity)
-                        .setView(view)
-                        .create();
-                dismiss[0] = popup::dismiss;
-                popup.show();
-                if (popup.getWindow() != null) {
-                    popup.getWindow().setBackgroundDrawable(
+                // Same presentation as the update sheet: a bottom sheet with a
+                // transparent background, so every menu in the app opens the
+                // same way.
+                BottomSheetDialog sheet = new BottomSheetDialog(activity);
+                sheet.setContentView(view);
+                if (sheet.getWindow() != null) {
+                    sheet.getWindow().setBackgroundDrawable(
                             new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
                 }
-                view.setScaleX(0.92f);
-                view.setScaleY(0.92f);
-                view.setAlpha(0f);
-                view.animate().scaleX(1f).scaleY(1f).alpha(1f)
-                        .setInterpolator(new android.view.animation.OvershootInterpolator(1.6f))
-                        .setDuration(220).start();
+                sheet.getBehavior().setSkipCollapsed(true);
+                sheet.getBehavior().setPeekHeight(
+                        activity.getResources().getDisplayMetrics().heightPixels / 2);
+                dismiss[0] = sheet::dismiss;
+                sheet.show();
             }
         });
     }
