@@ -2713,9 +2713,9 @@ The stub application is replaced with the real one found in the dump and all inj
     <!-- In-app update bottom sheet -->
     <string name="update_sheet_new_chip">NEW</string>
     <string name="update_sheet_whats_new">What\'s new</string>
-    <string name="update_sheet_download">Download &amp; update</string>
+    <string name="update_sheet_download">Update</string>
     <string name="update_sheet_downloading">Downloading…</string>
-    <string name="update_sheet_later">Later</string>
+    <string name="update_sheet_later">Maybe later</string>
     <string name="update_sheet_download_failed">Download failed. Try again.</string>
     <string name="update_sheet_allow_install">Allow MP Manager to install apps, then tap Download &amp; update again.</string>
     <string name="update_sheet_no_changelog">See the release page on GitHub for details.</string>
