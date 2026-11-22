@@ -407,7 +407,14 @@ public class ApkCloner {
         }
         activityAliasSB.append(modifiedRelativeClassNameString.substring(lastActivityAliasMatchEnd));
 
-        return new aXMLEncoder().encodeString(activityAliasSB.toString(), context);
+        // Rename the app label as well, otherwise both copies show the same
+        // name in the launcher and the user cannot tell them apart.
+        String renamedLabel = labelFromPackage(newPackageName);
+        String withLabel = Pattern
+                .compile("(<application[^>]*?android:label=\")([^\"]*)(\")")
+                .matcher(activityAliasSB.toString())
+                .replaceFirst("$1" + Matcher.quoteReplacement(renamedLabel) + "$3");
+        return new aXMLEncoder().encodeString(withLabel, context);
         //return new AXMLCompiler().axml2Xml(context, activityAliasSB.toString());
     }
 	
@@ -417,5 +424,15 @@ public class ApkCloner {
 		void onProgress(int progress, int total); // Progress update method
 		void onMessage(String name); // Message notification method
 	}
+
+	/** "com.example.musicplayer" -> "Musicplayer", used as the clone's app name. */
+	public static String labelFromPackage(String pkg) {
+		if (pkg == null || pkg.isEmpty()) return "Clone";
+		String[] parts = pkg.split("\\.");
+		String last = parts[parts.length - 1];
+		if (last.isEmpty()) return "Clone";
+		return Character.toUpperCase(last.charAt(0)) + last.substring(1);
+	}
+
 }
 
