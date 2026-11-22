@@ -2712,7 +2712,7 @@ The stub application is replaced with the real one found in the dump and all inj
 
     <!-- In-app update bottom sheet -->
     <string name="update_sheet_new_chip">NEW</string>
-    <string name="update_sheet_whats_new">What's new</string>
+    <string name="update_sheet_whats_new">What\'s new</string>
     <string name="update_sheet_download">Download &amp; update</string>
     <string name="update_sheet_downloading">Downloading…</string>
     <string name="update_sheet_later">Later</string>
