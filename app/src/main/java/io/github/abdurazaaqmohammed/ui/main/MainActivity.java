@@ -486,13 +486,6 @@ public class MainActivity extends BaseActivity implements PaneNavigationControll
         }
     }
 
-    /** Lets the popup run the same built-in tools the sidebar uses. */
-    public void openBuiltInSidebarTool(String id) {
-        try {
-            sidebar.openBuiltInTool(id);
-        } catch (Exception ignored) {
-        }
-    }
 
     public void closeSidebarDrawer() {
         drawerLayout.closeDrawer(GravityCompat.START);
