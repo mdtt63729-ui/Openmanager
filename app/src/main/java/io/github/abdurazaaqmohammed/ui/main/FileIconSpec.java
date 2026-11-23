@@ -172,7 +172,7 @@ public record FileIconSpec(int glyph, int background, int foreground, int label,
             case ".alac": case ".ape": case ".mid": case ".midi": case ".ac3": case ".dts":
             case ".caf": case ".au": case ".voc": case ".dsf": case ".dff": return TYPE_AUDIO;
             case ".mp4": case ".mkv": case ".avi": case ".mov": case ".wmv": case ".flv":
-            case ".webm": case ".m4v": case ".mpeg": case ".mpg": case ".m2ts": case ".ts":
+            case ".webm": case ".m4v": case ".mpeg": case ".mpg": case ".m2ts":
             case ".vob": case ".3gp": case ".3g2": case ".ogv": case ".divx": case ".mxf":
             case ".asf": case ".rm": case ".rmvb": case ".f4v": case ".mts": return TYPE_VIDEO;
             case ".zip": case ".rar": case ".7z": case ".tar": case ".gz": case ".tgz":
