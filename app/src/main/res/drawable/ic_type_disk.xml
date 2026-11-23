@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Disk image -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="56dp"
+    android:viewportWidth="96"
+    android:viewportHeight="112">
+
+    <path
+        android:fillColor="#455A64"
+        android:pathData="M14,4h50l24,24v74a6,6 0 0 1 -6,6h-68a6,6 0 0 1 -6,-6v-92a6,6 0 0 1 6,-6z" />
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M64,4l24,24h-24z" />
+    <path
+        android:fillColor="#FFFFFFFF" android:fillAlpha="0.9"
+        android:pathData="M48,44a16,16 0 1,0 0.1,0z" />
+    <path
+        android:fillColor="#FFFFFFFF" android:fillAlpha="0.0"
+        android:pathData="M48,52a8,8 0 1,0 0.1,0z" />
+    <path
+        android:fillColor="#FFFFFFFF" android:fillAlpha="0.9"
+        android:pathData="M48,52a8,8 0 0,1 8,8h-8z" />
+</vector>

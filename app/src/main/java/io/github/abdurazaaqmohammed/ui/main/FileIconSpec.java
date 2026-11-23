@@ -52,6 +52,28 @@ public record FileIconSpec(int glyph, int background, int foreground, int label,
     public static final FileIconSpec CERTIFICATE = spec(R.drawable.ic_certificate_seal_24px, 0xFFF57F17, R.string.shortcut_icon_certificate);
     public static final FileIconSpec FILE = new FileIconSpec(R.drawable.ic_file_blue, 0, 0, R.string.file, true);
 
+    // Universal file-type artwork (rounded document + pictogram, own palette).
+    public static final FileIconSpec TYPE_PDF = type(R.drawable.ic_type_pdf, R.string.shortcut_icon_pdf);
+    public static final FileIconSpec TYPE_WORD = type(R.drawable.ic_type_word, R.string.shortcut_icon_document);
+    public static final FileIconSpec TYPE_EXCEL = type(R.drawable.ic_type_excel, R.string.shortcut_icon_sheet);
+    public static final FileIconSpec TYPE_PPT = type(R.drawable.ic_type_ppt, R.string.shortcut_icon_slide);
+    public static final FileIconSpec TYPE_IMAGE = type(R.drawable.ic_type_image, R.string.image);
+    public static final FileIconSpec TYPE_PSD = type(R.drawable.ic_type_psd, R.string.image);
+    public static final FileIconSpec TYPE_AI = type(R.drawable.ic_type_ai, R.string.image);
+    public static final FileIconSpec TYPE_APK = type(R.drawable.ic_type_apk, R.string.shortcut_icon_apk);
+    public static final FileIconSpec TYPE_ZIP = type(R.drawable.ic_type_zip, R.string.shortcut_icon_archive);
+    public static final FileIconSpec TYPE_AUDIO = type(R.drawable.ic_type_audio, R.string.shortcut_icon_audio);
+    public static final FileIconSpec TYPE_VIDEO = type(R.drawable.ic_type_video, R.string.shortcut_icon_video);
+    public static final FileIconSpec TYPE_JSON = type(R.drawable.ic_type_json, R.string.shortcut_icon_data);
+    public static final FileIconSpec TYPE_CODE = type(R.drawable.ic_type_code, R.string.shortcut_icon_dex);
+    public static final FileIconSpec TYPE_TEXT = type(R.drawable.ic_type_text, R.string.shortcut_icon_text);
+    public static final FileIconSpec TYPE_FONT = type(R.drawable.ic_type_font, R.string.shortcut_icon_font);
+    public static final FileIconSpec TYPE_DISK = type(R.drawable.ic_type_disk, R.string.shortcut_icon_disk);
+
+    private static FileIconSpec type(int glyph, int label) {
+        return new FileIconSpec(glyph, 0, 0, label, true);
+    }
+
     private static FileIconSpec spec(int glyph, int color, int label) { return new FileIconSpec(glyph, color, Color.WHITE, label, false); }
 
     public static List<FileIconSpec> all() {
@@ -64,6 +86,8 @@ public record FileIconSpec(int glyph, int background, int foreground, int label,
         String extension = "." + FilenameUtils.getExtension(path).toLowerCase(Locale.ROOT);
         if (ApkIconHelper.isApkLikeExt(extension))
             return List.of(".apks", ".xapk", ".apkm", ".aspk").contains(extension) ? ARCHIVE : APK;
+        FileIconSpec typed = typeForExtension(extension);
+        if (typed != null) return typed;
         if (FileUtils.matchExt(extension, FileUtils.IMAGE_EXTS)) return IMAGE;
         if (FileUtils.matchExt(extension, FileUtils.VIDEO_EXTS)) return VIDEO;
         if (FileUtils.matchExt(extension, FileUtils.AUDIO_EXTS)) return AUDIO;
@@ -121,4 +145,57 @@ public record FileIconSpec(int glyph, int background, int foreground, int label,
         layer.setLayerInset(1, inset, inset, inset, inset);
         return layer;
     }
+
+    /** Universal icon catalog: extension family -> document artwork. */
+    private static FileIconSpec typeForExtension(String extension) {
+        switch (extension) {
+            case ".pdf": return TYPE_PDF;
+            case ".doc": case ".docx": case ".docm": case ".dot": case ".dotx": case ".odt":
+            case ".ott": case ".rtf": case ".wps": case ".wpd": case ".pages": case ".epub":
+            case ".mobi": case ".azw": case ".azw3": case ".fb2": case ".djvu": case ".chm":
+            case ".xps": case ".oxps": return TYPE_WORD;
+            case ".xls": case ".xlsx": case ".xlsm": case ".xlsb": case ".xltx": case ".xltm":
+            case ".csv": case ".tsv": case ".ods": case ".ots": case ".numbers": case ".dif":
+            case ".slk": case ".prn": return TYPE_EXCEL;
+            case ".ppt": case ".pptx": case ".pptm": case ".pps": case ".ppsx": case ".pot":
+            case ".potx": case ".odp": case ".otp": case ".key": return TYPE_PPT;
+            case ".jpg": case ".jpeg": case ".jpe": case ".png": case ".apng": case ".gif":
+            case ".webp": case ".bmp": case ".dib": case ".tiff": case ".tif": case ".svg":
+            case ".svgz": case ".ico": case ".icns": case ".heic": case ".heif": case ".avif":
+            case ".jxl": case ".raw": case ".cr2": case ".cr3": case ".nef": case ".nrw":
+            case ".arw": case ".dng": case ".orf": case ".raf": case ".rw2": return TYPE_IMAGE;
+            case ".psd": case ".psb": case ".xcf": case ".indd": case ".sketch": case ".fig":
+            case ".xd": case ".fla": case ".swf": return TYPE_PSD;
+            case ".ai": case ".eps": case ".ps": case ".cdr": return TYPE_AI;
+            case ".mp3": case ".wav": case ".flac": case ".aac": case ".m4a": case ".m4b":
+            case ".ogg": case ".opus": case ".wma": case ".amr": case ".aiff": case ".aif":
+            case ".alac": case ".ape": case ".mid": case ".midi": case ".ac3": case ".dts":
+            case ".caf": case ".au": case ".voc": case ".dsf": case ".dff": return TYPE_AUDIO;
+            case ".mp4": case ".mkv": case ".avi": case ".mov": case ".wmv": case ".flv":
+            case ".webm": case ".m4v": case ".mpeg": case ".mpg": case ".m2ts": case ".ts":
+            case ".vob": case ".3gp": case ".3g2": case ".ogv": case ".divx": case ".mxf":
+            case ".asf": case ".rm": case ".rmvb": case ".f4v": case ".mts": return TYPE_VIDEO;
+            case ".zip": case ".rar": case ".7z": case ".tar": case ".gz": case ".tgz":
+            case ".bz2": case ".xz": case ".zst": case ".z": case ".cab": case ".deb":
+            case ".rpm": case ".aab": case ".jar": case ".war": case ".ear": case ".cpio":
+            case ".ar": case ".lz": case ".lzh": case ".lzma": case ".ace": case ".arc":
+            case ".wim": return TYPE_ZIP;
+            case ".iso": case ".img": case ".dmg": case ".vhd": case ".vhdx": case ".vdi":
+            case ".vmdk": case ".qcow2": return TYPE_DISK;
+            case ".apk": case ".apks": case ".xapk": case ".apkm": case ".aspk": return TYPE_APK;
+            case ".json": case ".xml": case ".yaml": case ".yml": case ".toml": case ".ini":
+                return TYPE_JSON;
+            case ".java": case ".kt": case ".kts": case ".py": case ".pyw": case ".js":
+            case ".mjs": case ".cjs": case ".jsx": case ".ts": case ".tsx": case ".c":
+            case ".h": case ".cpp": case ".hpp": case ".cc": case ".cxx": case ".cs":
+            case ".swift": case ".dart": case ".php": case ".phtml": case ".rb": case ".go":
+            case ".rs": case ".sql": case ".sh": case ".smali": case ".gradle": case ".html":
+            case ".htm": case ".css": case ".scss": case ".sass": case ".less": return TYPE_CODE;
+            case ".txt": case ".md": case ".markdown": case ".log": case ".tex": case ".latex":
+                return TYPE_TEXT;
+            case ".ttf": case ".otf": case ".woff": case ".woff2": case ".ttc": return TYPE_FONT;
+            default: return null;
+        }
+    }
+
 }

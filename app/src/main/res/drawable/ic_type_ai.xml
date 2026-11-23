@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Illustrator document -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="56dp"
+    android:viewportWidth="96"
+    android:viewportHeight="112">
+
+    <path
+        android:fillColor="#FB8C00"
+        android:pathData="M14,4h50l24,24v74a6,6 0 0 1 -6,6h-68a6,6 0 0 1 -6,-6v-92a6,6 0 0 1 6,-6z" />
+    <path
+        android:fillColor="#FFCC80"
+        android:pathData="M64,4l24,24h-24z" />
+    <path
+        android:fillColor="#FFFFFFFF" android:fillAlpha="0.5"
+        android:pathData="M26,44h44v34h-44z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M34,54a5,5 0 1,0 0.1,0z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M28,74l12,-14l8,9l7,-7l13,12z" />
+</vector>
