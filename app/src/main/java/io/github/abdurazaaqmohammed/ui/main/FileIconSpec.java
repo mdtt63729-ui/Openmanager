@@ -21,7 +21,7 @@ import java.util.Locale;
 public record FileIconSpec(int glyph, int background, int foreground, int label, boolean fullColour) {
     // Golden folder and blue document carry their own colours, so they skip the
     // tinted tile every other type sits on.
-    public static final FileIconSpec FOLDER = new FileIconSpec(R.drawable.ic_folder_golden, 0, 0, R.string.folder, true);
+    public static final FileIconSpec FOLDER = new FileIconSpec(R.drawable.ic_folder_blue, 0, 0, R.string.folder, true);
     public static final FileIconSpec APK = spec(R.drawable.apk_document_24px, 0xFF2E7D32, R.string.shortcut_icon_apk);
     public static final FileIconSpec IMAGE = spec(R.drawable.image_24px, 0xFF00838F, R.string.image);
     public static final FileIconSpec VIDEO = spec(R.drawable.video_24px, 0xFFC62828, R.string.shortcut_icon_video);
@@ -132,7 +132,7 @@ public record FileIconSpec(int glyph, int background, int foreground, int label,
         GradientDrawable backgroundDrawable = new GradientDrawable();
         backgroundDrawable.setCornerRadius(6 * density);
         int tile = background;
-        if (glyph == R.drawable.ic_folder_golden) {
+        if (glyph == R.drawable.ic_folder_blue) {
             tile = ThemeRegistry.packColor(context, "folder_icon_bg", tile);
         } else if (glyph == R.drawable.ic_file_blue) {
             tile = ThemeRegistry.packColor(context, "file_icon_bg", tile);

@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Golden Amber folder: flat 2D, Material 3 geometry, no gradient, no glow. -->
+<!-- Blue folder: flat body with a soft front panel, poster-rounded corners. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
     android:viewportWidth="96"
     android:viewportHeight="96">
 
-    <!-- folder tab, top-left, softly rounded -->
     <path
-        android:fillColor="#D39B36"
-        android:pathData="M14,18h26a6,6 0 0 1 6,6v10h-36v-10a6,6 0 0 1 4,-6z" />
+        android:fillColor="#2F80ED"
+        android:pathData="M14,16h26a14,14 0 0 1 14,14v6h-44v-6a14,14 0 0 1 4,-14z" />
 
-    <!-- main body -->
     <path
-        android:fillColor="#E9B84E"
-        android:pathData="M8,32h80v42a8,8 0 0 1 -8,8h-64a8,8 0 0 1 -8,-8z" />
+        android:fillColor="#3B82F6"
+        android:pathData="M8,30h80v44a14,14 0 0 1 -14,14h-52a14,14 0 0 1 -14,-14z" />
 
-    <!-- front surface -->
     <path
-        android:fillColor="#F4CC72"
-        android:pathData="M8,44h80v30a8,8 0 0 1 -8,8h-64a8,8 0 0 1 -8,-8z" />
+        android:fillColor="#BBD6FF"
+        android:fillAlpha="0.92"
+        android:pathData="M14,42h68v30a12,12 0 0 1 -12,12h-44a12,12 0 0 1 -12,-12z" />
 
-    <!-- highlight strip along the front edge -->
     <path
-        android:fillColor="#F9D98F"
-        android:pathData="M8,44h80v6h-80z" />
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.55"
+        android:pathData="M14,42h68v4h-68z" />
 </vector>

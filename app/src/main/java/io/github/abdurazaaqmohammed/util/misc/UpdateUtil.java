@@ -66,7 +66,7 @@ public class UpdateUtil {
                 }
                 AppRelease release = latestAppRelease(json);
                 if (release == null) {
-                    if (toast) Extensions.showMessage(context, R.string.no_update_found);
+                    if (toast) showResult(context, R.string.no_update_found);
                     return;
                 }
                 char[] curr = TextUtils.isEmpty(currentVer) ? new char[] { '1', '0', '9' }
@@ -86,7 +86,7 @@ public class UpdateUtil {
                     }
                 }
                 if (!newVer) {
-                    if (toast) Extensions.showMessage(context, R.string.no_update_found);
+                    if (toast) showResult(context, R.string.no_update_found);
                     return;
                 }
                 if (!toast && !TextUtils.isEmpty(lastVerChecked) && lastVerChecked.equals(release.version)) {
@@ -101,7 +101,7 @@ public class UpdateUtil {
                             .show(context.getSupportFragmentManager(), "update_sheet");
                 });
             } catch (Exception e) {
-                if (toast) Extensions.showMessage(context, R.string.failed_to_check_for_update);
+                if (toast) showResult(context, R.string.failed_to_check_for_update);
             }
         }).start();
     }
@@ -193,6 +193,18 @@ public class UpdateUtil {
         if (lower.contains("-full-")) score += 8;
         if (lower.contains("-lite-")) score += 2;
         return score;
+    }
+
+
+    /** Manual checks answer with a dialog, so the result is never silent. */
+    private static void showResult(androidx.appcompat.app.AppCompatActivity context, int message) {
+        MAIN_HANDLER.post(() -> {
+            if (context.isFinishing() || context.isDestroyed()) return;
+            new com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+        });
     }
 
 }
