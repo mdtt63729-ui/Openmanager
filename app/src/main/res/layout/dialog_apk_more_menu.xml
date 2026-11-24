@@ -35,7 +35,7 @@
             android:text="@string/more"
             android:textColor="?attr/colorOnSurface"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
         <ImageButton
             android:id="@+id/apkMoreMenuEditButton"

@@ -12,8 +12,8 @@ android {
         minSdk 23
         targetSdk 37
         multiDexEnabled true
-        versionCode 26
-        versionName "1.5.0"
+        versionCode 27
+        versionName "1.6.0"
         // Where in-app updates look. Set updateRepo in gradle.properties to
         // your own fork; nothing here points at the upstream project.
         buildConfigField "String", "UPDATE_REPO", "\"${project.findProperty('updateRepo') ?: 'YOUR_GITHUB_USER/Open-Manager'}\""

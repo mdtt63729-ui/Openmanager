@@ -23,7 +23,7 @@
             android:ellipsize="middle"
             android:singleLine="true"
             android:textSize="13sp"
-            android:textStyle="bold"/>
+            android:textStyle="normal"/>
 
         <ImageButton
             android:id="@+id/file_picker_refresh"

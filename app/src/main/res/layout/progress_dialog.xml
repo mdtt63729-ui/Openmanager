@@ -37,7 +37,7 @@
             android:maxLines="1"
             android:textColor="?attr/colorPrimary"
             android:textSize="11sp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton
@@ -65,7 +65,7 @@
         android:text="@string/loading"
         android:textColor="?attr/colorOnSurface"
         android:textSize="17sp"
-        android:textStyle="bold" />
+        android:textStyle="normal" />
 
     <TextView
         android:id="@+id/currentFile"
@@ -101,7 +101,7 @@
                 android:text="@string/progress_from"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/fromPath"
@@ -130,7 +130,7 @@
                 android:text="@string/progress_to"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/toPath"
@@ -172,7 +172,7 @@
         android:paddingBottom="2dp"
         android:textColor="?attr/colorPrimary"
         android:textSize="13sp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         android:visibility="gone" />
 
     <!-- Pause / cancel controls. Hidden until the operation opts in, because
@@ -194,7 +194,7 @@
             android:text="@string/progress_paused"
             android:textColor="?attr/colorPrimary"
             android:textSize="12sp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton

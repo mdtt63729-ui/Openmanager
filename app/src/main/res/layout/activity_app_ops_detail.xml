@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_ops_sec_battery"
                     android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 
@@ -256,7 +256,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_ops_sec_network"
                     android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 
@@ -310,7 +310,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_ops_sec_system_perms"
                     android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 
@@ -338,7 +338,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_ops_sec_runtime_perms"
                     android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 
@@ -366,7 +366,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_ops_sec_app_ops"
                     android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 
@@ -394,7 +394,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_ops_sec_actions"
                     android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 
@@ -472,7 +472,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_ops_sec_info"
                     android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:textColor="?attr/colorPrimary"
                     android:layout_marginBottom="8dp" />
 

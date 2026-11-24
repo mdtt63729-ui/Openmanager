@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/update"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:layout_marginBottom="8dp" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/backup_restore_settings"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:layout_marginBottom="8dp" />
 
                 <LinearLayout
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/clear_cache"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:layout_marginBottom="4dp" />
 
                 <TextView

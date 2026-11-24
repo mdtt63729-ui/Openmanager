@@ -9,7 +9,7 @@
     <!-- page body with folded corner cut out -->
     <path
         android:fillColor="#5275BC"
-        android:pathData="M14,4h38l20,20v64a6,6 0 0 1 -6,6h-52a6,6 0 0 1 -6,-6v-78a6,6 0 0 1 6,-6z" />
+        android:pathData="M14,4h38l20,20v64a14,14 0 0 1 -14,14h-52a6,6 0 0 1 -6,-6v-78a14,14 0 0 1 14,-14z" />
 
     <!-- folded corner -->
     <path

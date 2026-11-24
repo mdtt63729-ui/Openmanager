@@ -61,7 +61,7 @@
                             android:maxLines="2"
                             android:singleLine="false"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/sharedEntryMeta"
@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/shared_entry_location"
                         android:textSize="13sp"
-                        android:textStyle="bold"
+                        android:textStyle="normal"
                         android:textColor="?attr/colorPrimary" />
 
                     <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -137,7 +137,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="@string/shared_entry_actions"
                 android:textSize="13sp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textColor="?attr/colorPrimary" />
 
             <com.google.android.material.button.MaterialButton

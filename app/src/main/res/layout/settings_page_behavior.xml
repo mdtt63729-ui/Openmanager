@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/haptics_enabled"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:layout_marginBottom="8dp" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/behavior"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:layout_marginBottom="8dp" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -260,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/signing_card"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     android:layout_marginBottom="8dp" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox

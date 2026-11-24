@@ -22,7 +22,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
         <TextView
             android:id="@+id/aboutLibAuthor"
@@ -47,5 +47,5 @@
         android:paddingBottom="4dp"
         android:textColor="?attr/colorOnSecondaryContainer"
         android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textStyle="normal" />
 </LinearLayout>

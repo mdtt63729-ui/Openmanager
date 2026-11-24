@@ -30,7 +30,7 @@
                     android:text="@string/func"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/pkgNameToggle"
@@ -85,7 +85,7 @@
                     android:text="@string/advanced_options"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/antisplitToggle"

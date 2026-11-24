@@ -30,7 +30,7 @@
 				android:gravity="center_horizontal|center_vertical"
 				android:text="pk8 + pem"
 				android:textSize="16sp"
-				android:textStyle="bold"
+				android:textStyle="normal"
 				android:checked="true"
                 tools:ignore="HardcodedText" />
 			<com.google.android.material.checkbox.MaterialCheckBox
@@ -44,7 +44,7 @@
 				android:gravity="center_horizontal|center_vertical"
 				android:text="JKS"
 				android:textSize="16sp"
-				android:textStyle="bold"
+				android:textStyle="normal"
                 tools:ignore="HardcodedText" />
 		</LinearLayout>
 		<com.google.android.material.textfield.TextInputLayout
@@ -237,7 +237,7 @@
 			android:padding="8dp"
 			android:text="@string/more_options"
 			android:textSize="16sp"
-			android:textStyle="bold" />
+			android:textStyle="normal" />
 		<LinearLayout
 			android:id="@+id/linear_more"
 			android:layout_width="match_parent"

@@ -19,7 +19,7 @@
             android:text="@string/inspector"
             android:textColor="?attr/colorOnSurface"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
         <CheckBox
             android:id="@+id/inspectorBigEndian"

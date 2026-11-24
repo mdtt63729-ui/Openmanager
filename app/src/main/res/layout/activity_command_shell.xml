@@ -299,7 +299,7 @@
                 app:icon="@drawable/ic_save"
                 android:text="@string/save"
                 android:visibility="gone"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <!-- Files Tab View (.sh script browser & executor) -->

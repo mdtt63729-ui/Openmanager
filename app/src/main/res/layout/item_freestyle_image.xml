@@ -27,7 +27,7 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         android:background="@drawable/baseline_check_circle_24"
         android:visibility="gone" />
 

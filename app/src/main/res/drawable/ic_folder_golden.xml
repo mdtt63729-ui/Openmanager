@@ -9,17 +9,17 @@
     <!-- folder tab, top-left, softly rounded -->
     <path
         android:fillColor="#D39B36"
-        android:pathData="M14,18h26a6,6 0 0 1 6,6v10h-36v-10a6,6 0 0 1 4,-6z" />
+        android:pathData="M14,18h26a14,14 0 0 1 14,14v10h-36v-10a6,6 0 0 1 4,-6z" />
 
     <!-- main body -->
     <path
         android:fillColor="#E9B84E"
-        android:pathData="M8,32h80v42a8,8 0 0 1 -8,8h-64a8,8 0 0 1 -8,-8z" />
+        android:pathData="M8,32h80v42a14,14 0 0 1 -14,14h-64a14,14 0 0 1 -14,-14z" />
 
     <!-- front surface -->
     <path
         android:fillColor="#F4CC72"
-        android:pathData="M8,44h80v30a8,8 0 0 1 -8,8h-64a8,8 0 0 1 -8,-8z" />
+        android:pathData="M8,44h80v30a14,14 0 0 1 -14,14h-64a14,14 0 0 1 -14,-14z" />
 
     <!-- highlight strip along the front edge -->
     <path

@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
                     android:textSize="28sp"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/aboutVersion"
@@ -107,7 +107,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/about_open_source_projects"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"

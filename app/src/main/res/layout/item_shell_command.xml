@@ -22,7 +22,7 @@
             android:textColor="?attr/colorPrimary"
             android:layout_gravity="start"
             android:clickable="false"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:textSize="17sp" />
 
         <com.google.android.material.textview.MaterialTextView

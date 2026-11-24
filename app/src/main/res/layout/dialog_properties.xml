@@ -39,7 +39,7 @@
                     android:ellipsize="middle"
                     android:singleLine="true"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/propertySubtitle"

@@ -26,7 +26,7 @@
                 android:text="@string/select_images"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnNext"
@@ -38,7 +38,7 @@
                 android:text="@string/next"
                 android:textColor="@android:color/white"
                 android:textAllCaps="false"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
         </RelativeLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 

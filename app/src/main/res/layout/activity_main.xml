@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:textStyle="normal"
                         android:textColor="?attr/colorOnSurface"
                         android:contentDescription="@string/current_folder_path"/>
 
@@ -380,7 +380,7 @@
                 android:text="@string/app_name"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <ImageButton
                 android:id="@+id/sidebarOrganizeButton"
@@ -518,7 +518,7 @@
                 android:text="@string/more_options"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <ImageButton
                 android:id="@+id/rightMenuRefreshButton"
